@@ -1,0 +1,1028 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --dark: #1e1e2e;
+    --darker: #11111b;
+    --light: #cdd6f4;
+    --muted: #6c7086;
+    --surface: #313244;
+    --surface-light: #45475a;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--darker);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+/* 导航栏 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(17, 17, 27, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    border-bottom: 1px solid var(--surface);
+}
+
+.nav-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+/* Hero 区域 */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+}
+
+.hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* 通用 Section 样式 */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section.dark {
+    background: var(--dark);
+    max-width: 100%;
+    padding-left: calc((100% - 1400px) / 2 + 2rem);
+    padding-right: calc((100% - 1400px) / 2 + 2rem);
+}
+
+.section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    color: var(--light);
+}
+
+/* 概念介绍 */
+.intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.intro-text p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.key-terms {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.term {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+}
+
+.term h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+/* 三明治图示 */
+.sandwich-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.bread, .filling {
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 500;
+    position: relative;
+}
+
+.bread {
+    background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+}
+
+.filling {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+    border: 2px dashed var(--muted);
+}
+
+.bread-icon, .victim-icon {
+    font-size: 1.5rem;
+}
+
+.gas-label {
+    margin-left: auto;
+    background: rgba(0,0,0,0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* 攻击机制流程 */
+.mechanism-flow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+}
+
+.flow-step {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 200px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.flow-step:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+}
+
+.step-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.flow-step h3 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.flow-arrow {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+/* 夹子机器人 */
+.bot-section {
+    margin-top: 4rem;
+}
+
+.bot-section h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+}
+
+.bot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.bot-card {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.bot-card h4 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.bot-card ul {
+    list-style: none;
+}
+
+.bot-card li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--surface-light);
+}
+
+.bot-card li:last-child {
+    border-bottom: none;
+}
+
+/* 攻击类型标签页 */
+.types-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: var(--surface);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    color: var(--light);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.tab-btn:hover {
+    background: var(--surface-light);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.type-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.type-info h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.attack-example {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+}
+
+.attack-example h4 {
+    margin-bottom: 1rem;
+    color: var(--warning);
+}
+
+.attack-example ol {
+    padding-left: 1.5rem;
+}
+
+.attack-example li {
+    margin-bottom: 0.5rem;
+}
+
+/* 多层攻击图示 */
+.multi-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.layer {
+    padding: 1rem;
+    background: var(--danger);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.layer.victim {
+    background: var(--surface-light);
+    border: 1px dashed var(--muted);
+}
+
+/* 利润对比 */
+.profit-comparison {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.profit-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bar-label {
+    width: 100px;
+    font-size: 0.9rem;
+}
+
+.bar {
+    height: 30px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+.bar-value {
+    font-weight: bold;
+    color: var(--secondary);
+}
+
+/* JIT 流动性 */
+.jit-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.jit-step {
+    padding: 1rem 2rem;
+    background: var(--surface-light);
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.jit-step.highlight {
+    background: var(--primary);
+}
+
+.jit-arrow {
+    font-size: 1.5rem;
+    color: var(--muted);
+}
+
+.jit-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.jit-stat {
+    text-align: center;
+}
+
+.jit-stat .value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--secondary);
+}
+
+.jit-stat .label {
+    color: var(--muted);
+}
+
+/* 跨池攻击 */
+.cross-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.pool {
+    padding: 1rem 1.5rem;
+    background: var(--primary);
+    border-radius: 8px;
+}
+
+.cross-arrow {
+    font-size: 1.5rem;
+    color: var(--secondary);
+}
+
+/* 交互模拟 */
+.simulation-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+}
+
+.sim-controls {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.sim-controls h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.control-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+}
+
+.control-group input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--surface-light);
+    appearance: none;
+    cursor: pointer;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+.control-group span {
+    display: block;
+    text-align: right;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.sim-btn {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 0.5rem;
+}
+
+.sim-btn:not(.secondary) {
+    background: var(--primary);
+    color: white;
+}
+
+.sim-btn:not(.secondary):hover {
+    background: var(--primary-dark);
+}
+
+.sim-btn.secondary {
+    background: var(--surface-light);
+    color: var(--light);
+}
+
+.sim-btn.secondary:hover {
+    background: var(--muted);
+}
+
+/* 模拟可视化 */
+.sim-visualization {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.pool-visual {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.pool-visual h4 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.pool-bars {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.pool-bar {
+    flex: 1;
+    height: 150px;
+    background: var(--surface-light);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.pool-bar .bar-fill {
+    width: 100%;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-dark) 100%);
+    transition: height 0.5s ease;
+}
+
+.pool-bar.eth .bar-fill {
+    height: 50%;
+    background: linear-gradient(180deg, #627eea 0%, #3c4f9e 100%);
+}
+
+.pool-bar.token .bar-fill {
+    height: 50%;
+    background: linear-gradient(180deg, var(--secondary) 0%, #059669 100%);
+}
+
+.pool-bar .bar-label {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    z-index: 1;
+}
+
+.price-display {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 1rem;
+    background: var(--darker);
+    border-radius: 8px;
+}
+
+#currentPrice {
+    color: var(--secondary);
+    font-weight: bold;
+}
+
+/* 交易流程 */
+.transaction-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tx-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--surface);
+    border-radius: 12px;
+    border-left: 4px solid var(--muted);
+    transition: all 0.3s;
+}
+
+.tx-item.pending {
+    opacity: 0.5;
+}
+
+.tx-item.executing {
+    border-left-color: var(--warning);
+    background: rgba(245, 158, 11, 0.1);
+}
+
+.tx-item.completed {
+    border-left-color: var(--secondary);
+    opacity: 1;
+}
+
+.tx-item.victim {
+    border-left-color: var(--danger);
+}
+
+.tx-type {
+    font-weight: bold;
+}
+
+.tx-detail {
+    color: var(--muted);
+}
+
+/* 模拟结果 */
+.sim-results {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    grid-column: 1 / -1;
+}
+
+.sim-results h4 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.result-item {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--darker);
+    border-radius: 12px;
+}
+
+.result-item.highlight {
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid var(--primary);
+}
+
+.result-label {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.result-value.positive {
+    color: var(--secondary);
+}
+
+.result-value.negative {
+    color: var(--danger);
+}
+
+/* 超级节点 */
+.supernode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.node-card {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.node-card:hover {
+    transform: translateY(-5px);
+}
+
+.node-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.node-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.node-card ul {
+    list-style: none;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.node-card li {
+    padding: 0.5rem 0;
+    color: var(--muted);
+}
+
+/* MEV 供应链 */
+.mev-flow-diagram {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.mev-flow-diagram h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.flow-chain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.chain-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--darker);
+    border-radius: 12px;
+    min-width: 100px;
+}
+
+.chain-node.highlight {
+    background: rgba(239, 68, 68, 0.2);
+    border: 1px solid var(--danger);
+}
+
+.chain-node .icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.chain-node .label {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.chain-arrow {
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+/* 防护措施 */
+.protection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.protection-card {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.protection-card:hover {
+    transform: translateY(-5px);
+}
+
+.protection-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.protection-card h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.tip {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+/* 工具推荐 */
+.tools-section {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.tools-section h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.tool-link {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--darker);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+}
+
+.tool-link:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+}
+
+.tool-name {
+    font-weight: bold;
+    color: var(--light);
+    margin-bottom: 0.5rem;
+}
+
+.tool-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: var(--darker);
+    border-top: 1px solid var(--surface);
+}
+
+.footer p {
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .supernode-grid,
+    .protection-grid,
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .result-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .intro-grid,
+    .type-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .simulation-container {
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-stats {
+        gap: 2rem;
+    }
+
+    .bot-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .supernode-grid,
+    .protection-grid,
+    .tools-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mechanism-flow {
+        flex-direction: column;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+    }
+
+    .flow-chain {
+        flex-direction: column;
+    }
+
+    .chain-arrow {
+        transform: rotate(90deg);
+    }
+}
+
+/* 图表容器 */
+#basicChart {
+    width: 100%;
+    height: 300px;
+}
+
+/* 动画 */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.executing {
+    animation: pulse 1s infinite;
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三明治攻击 - 加密货币交易安全演示</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🥪 三明治攻击演示</div>
+        <ul class="nav-links">
+            <li><a href="#intro" class="active">概念介绍</a></li>
+            <li><a href="#mechanism">攻击机制</a></li>
+            <li><a href="#types">攻击类型</a></li>
+            <li><a href="#simulation">交互模拟</a></li>
+            <li><a href="#protection">防护措施</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>三明治攻击 (Sandwich Attack)</h1>
+            <p class="subtitle">深入理解 DeFi 交易中的 MEV 攻击方式</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">$1.4B+</span>
+                    <span class="stat-label">2023年 MEV 提取总额</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">60%+</span>
+                    <span class="stat-label">三明治攻击占比</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">毫秒级</span>
+                    <span class="stat-label">攻击执行速度</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 概念介绍 -->
+        <section id="intro" class="section">
+            <h2>什么是三明治攻击？</h2>
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <p>三明治攻击是一种针对去中心化交易所（DEX）用户的 <strong>MEV（最大可提取价值）</strong> 攻击方式。</p>
+                    <p>攻击者通过监控内存池（Mempool）中的待处理交易，在目标交易<strong>前后</strong>各插入一笔交易，像三明治一样"夹住"受害者的交易，从而获利。</p>
+                    <div class="key-terms">
+                        <div class="term">
+                            <h4>MEV</h4>
+                            <p>Maximal Extractable Value，指矿工/验证者通过重排、插入或审查交易获得的额外利润</p>
+                        </div>
+                        <div class="term">
+                            <h4>Mempool</h4>
+                            <p>内存池，存放已广播但未被打包的待处理交易</p>
+                        </div>
+                        <div class="term">
+                            <h4>滑点</h4>
+                            <p>交易执行价格与预期价格之间的差异</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="intro-visual">
+                    <div class="sandwich-diagram">
+                        <div class="bread top-bread">
+                            <span class="bread-icon">🍞</span>
+                            <span>前置交易 (Front-run)</span>
+                            <span class="gas-label">高 Gas</span>
+                        </div>
+                        <div class="filling">
+                            <span class="victim-icon">👤</span>
+                            <span>受害者交易</span>
+                            <span class="gas-label">正常 Gas</span>
+                        </div>
+                        <div class="bread bottom-bread">
+                            <span class="bread-icon">🍞</span>
+                            <span>后置交易 (Back-run)</span>
+                            <span class="gas-label">低 Gas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 攻击机制 -->
+        <section id="mechanism" class="section dark">
+            <h2>攻击机制详解</h2>
+            <div class="mechanism-flow">
+                <div class="flow-step" data-step="1">
+                    <div class="step-icon">👁️</div>
+                    <h3>监控内存池</h3>
+                    <p>夹子机器人持续扫描 Mempool，寻找大额 DEX 交易</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step" data-step="2">
+                    <div class="step-icon">🔍</div>
+                    <h3>分析交易</h3>
+                    <p>计算目标交易的滑点容忍度和潜在利润</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step" data-step="3">
+                    <div class="step-icon">⚡</div>
+                    <h3>构造攻击</h3>
+                    <p>创建前置买入和后置卖出交易</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-step" data-step="4">
+                    <div class="step-icon">💰</div>
+                    <h3>获取利润</h3>
+                    <p>三笔交易在同一区块执行，攻击者获利</p>
+                </div>
+            </div>
+
+            <!-- 夹子机器人详解 -->
+            <div class="bot-section">
+                <h3>🤖 夹子机器人 (Sandwich Bot)</h3>
+                <div class="bot-grid">
+                    <div class="bot-card">
+                        <h4>核心组件</h4>
+                        <ul>
+                            <li><strong>Mempool 监听器</strong> - 实时监控待处理交易</li>
+                            <li><strong>利润计算器</strong> - 评估攻击收益</li>
+                            <li><strong>Gas 优化器</strong> - 确保交易顺序</li>
+                            <li><strong>智能合约</strong> - 原子化执行攻击</li>
+                        </ul>
+                    </div>
+                    <div class="bot-card">
+                        <h4>运行环境</h4>
+                        <ul>
+                            <li><strong>高性能服务器</strong> - 低延迟响应</li>
+                            <li><strong>多节点连接</strong> - 快速广播交易</li>
+                            <li><strong>私有 RPC</strong> - 避免被检测</li>
+                            <li><strong>Flashbots</strong> - 直接提交给矿工</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 攻击类型 -->
+        <section id="types" class="section">
+            <h2>三明治攻击类型</h2>
+            <div class="types-tabs">
+                <button class="tab-btn active" data-tab="basic">基础三明治</button>
+                <button class="tab-btn" data-tab="multi">多层三明治</button>
+                <button class="tab-btn" data-tab="jit">JIT 流动性</button>
+                <button class="tab-btn" data-tab="cross">跨池攻击</button>
+            </div>
+
+            <div class="tab-content active" id="basic-content">
+                <div class="type-detail">
+                    <div class="type-info">
+                        <h3>基础三明治攻击</h3>
+                        <p>最常见的攻击形式，针对单一交易对的大额交换。</p>
+                        <div class="attack-example">
+                            <h4>攻击示例</h4>
+                            <ol>
+                                <li>用户想用 10 ETH 买入 TOKEN</li>
+                                <li>攻击者先买入 TOKEN（价格上涨）</li>
+                                <li>用户交易执行（以更高价格买入）</li>
+                                <li>攻击者卖出 TOKEN（获利）</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="type-visual">
+                        <canvas id="basicChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="multi-content">
+                <div class="type-detail">
+                    <div class="type-info">
+                        <h3>多层三明治攻击</h3>
+                        <p>同时夹击多个受害者交易，提高资金利用效率。</p>
+                        <div class="multi-diagram">
+                            <div class="layer">前置交易</div>
+                            <div class="layer victim">受害者 A</div>
+                            <div class="layer victim">受害者 B</div>
+                            <div class="layer victim">受害者 C</div>
+                            <div class="layer">后置交易</div>
+                        </div>
+                    </div>
+                    <div class="type-visual">
+                        <div class="profit-comparison">
+                            <div class="profit-bar">
+                                <span class="bar-label">单层攻击</span>
+                                <div class="bar" style="width: 40%"></div>
+                                <span class="bar-value">$500</span>
+                            </div>
+                            <div class="profit-bar">
+                                <span class="bar-label">多层攻击</span>
+                                <div class="bar" style="width: 85%"></div>
+                                <span class="bar-value">$1,200</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="jit-content">
+                <div class="type-detail">
+                    <div class="type-info">
+                        <h3>JIT 流动性攻击</h3>
+                        <p>Just-In-Time Liquidity，在交易执行前添加流动性，执行后立即移除。</p>
+                        <div class="jit-flow">
+                            <div class="jit-step">添加流动性</div>
+                            <div class="jit-arrow">↓</div>
+                            <div class="jit-step highlight">用户交易（赚取手续费）</div>
+                            <div class="jit-arrow">↓</div>
+                            <div class="jit-step">移除流动性</div>
+                        </div>
+                    </div>
+                    <div class="type-visual">
+                        <div class="jit-stats">
+                            <div class="jit-stat">
+                                <span class="value">0.3%</span>
+                                <span class="label">手续费收益</span>
+                            </div>
+                            <div class="jit-stat">
+                                <span class="value">0</span>
+                                <span class="label">无常损失</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="cross-content">
+                <div class="type-detail">
+                    <div class="type-info">
+                        <h3>跨池套利攻击</h3>
+                        <p>利用多个流动性池之间的价格差异进行复合攻击。</p>
+                        <div class="cross-diagram">
+                            <div class="pool">Uniswap V2</div>
+                            <div class="cross-arrow">⇄</div>
+                            <div class="pool">Uniswap V3</div>
+                            <div class="cross-arrow">⇄</div>
+                            <div class="pool">SushiSwap</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 交互模拟 -->
+        <section id="simulation" class="section dark">
+            <h2>交互式攻击模拟</h2>
+            <div class="simulation-container">
+                <div class="sim-controls">
+                    <h3>参数设置</h3>
+                    <div class="control-group">
+                        <label>交易金额 (ETH)</label>
+                        <input type="range" id="tradeAmount" min="1" max="100" value="10">
+                        <span id="tradeAmountValue">10 ETH</span>
+                    </div>
+                    <div class="control-group">
+                        <label>滑点容忍度</label>
+                        <input type="range" id="slippage" min="0.1" max="5" step="0.1" value="1">
+                        <span id="slippageValue">1%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>池子流动性 (ETH)</label>
+                        <input type="range" id="liquidity" min="100" max="10000" value="1000">
+                        <span id="liquidityValue">1,000 ETH</span>
+                    </div>
+                    <button id="simulateBtn" class="sim-btn">开始模拟</button>
+                    <button id="resetBtn" class="sim-btn secondary">重置</button>
+                </div>
+
+                <div class="sim-visualization">
+                    <div class="pool-visual">
+                        <h4>流动性池状态</h4>
+                        <div class="pool-bars">
+                            <div class="pool-bar eth">
+                                <span class="bar-fill" id="ethBar"></span>
+                                <span class="bar-label">ETH</span>
+                            </div>
+                            <div class="pool-bar token">
+                                <span class="bar-fill" id="tokenBar"></span>
+                                <span class="bar-label">TOKEN</span>
+                            </div>
+                        </div>
+                        <div class="price-display">
+                            当前价格: <span id="currentPrice">100</span> TOKEN/ETH
+                        </div>
+                    </div>
+
+                    <div class="transaction-flow" id="txFlow">
+                        <div class="tx-item pending" id="tx1">
+                            <span class="tx-type">前置交易</span>
+                            <span class="tx-detail">等待中...</span>
+                        </div>
+                        <div class="tx-item pending" id="tx2">
+                            <span class="tx-type">用户交易</span>
+                            <span class="tx-detail">等待中...</span>
+                        </div>
+                        <div class="tx-item pending" id="tx3">
+                            <span class="tx-type">后置交易</span>
+                            <span class="tx-detail">等待中...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sim-results" id="simResults">
+                    <h4>攻击结果</h4>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span class="result-label">用户预期获得</span>
+                            <span class="result-value" id="expectedTokens">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">用户实际获得</span>
+                            <span class="result-value negative" id="actualTokens">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">用户损失</span>
+                            <span class="result-value negative" id="userLoss">-</span>
+                        </div>
+                        <div class="result-item highlight">
+                            <span class="result-label">攻击者利润</span>
+                            <span class="result-value positive" id="attackerProfit">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 超级节点 -->
+        <section id="supernode" class="section">
+            <h2>超级节点与 MEV 基础设施</h2>
+            <div class="supernode-grid">
+                <div class="node-card">
+                    <div class="node-icon">🏗️</div>
+                    <h3>区块构建者 (Block Builder)</h3>
+                    <p>专门负责构建最优区块的实体，从搜索者处收集交易包，优化排序以最大化 MEV。</p>
+                    <ul>
+                        <li>Flashbots Builder</li>
+                        <li>BloXroute</li>
+                        <li>Eden Network</li>
+                    </ul>
+                </div>
+                <div class="node-card">
+                    <div class="node-icon">🔍</div>
+                    <h3>搜索者 (Searcher)</h3>
+                    <p>运行复杂算法寻找 MEV 机会的实体，包括三明治攻击、套利、清算等。</p>
+                    <ul>
+                        <li>高频交易策略</li>
+                        <li>智能合约自动化</li>
+                        <li>多链监控</li>
+                    </ul>
+                </div>
+                <div class="node-card">
+                    <div class="node-icon">⚡</div>
+                    <h3>中继器 (Relay)</h3>
+                    <p>连接搜索者、构建者和验证者的中间层，确保交易隐私和公平竞争。</p>
+                    <ul>
+                        <li>Flashbots Relay</li>
+                        <li>MEV-Boost</li>
+                        <li>Ultra Sound Relay</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mev-flow-diagram">
+                <h3>MEV 供应链</h3>
+                <div class="flow-chain">
+                    <div class="chain-node">
+                        <span class="icon">👤</span>
+                        <span class="label">用户</span>
+                    </div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-node">
+                        <span class="icon">📦</span>
+                        <span class="label">Mempool</span>
+                    </div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-node highlight">
+                        <span class="icon">🔍</span>
+                        <span class="label">搜索者</span>
+                    </div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-node">
+                        <span class="icon">🏗️</span>
+                        <span class="label">构建者</span>
+                    </div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-node">
+                        <span class="icon">⚡</span>
+                        <span class="label">中继器</span>
+                    </div>
+                    <div class="chain-arrow">→</div>
+                    <div class="chain-node">
+                        <span class="icon">✓</span>
+                        <span class="label">验证者</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 防护措施 -->
+        <section id="protection" class="section dark">
+            <h2>如何防护三明治攻击</h2>
+            <div class="protection-grid">
+                <div class="protection-card">
+                    <div class="protection-icon">🛡️</div>
+                    <h3>设置合理滑点</h3>
+                    <p>将滑点容忍度设置在 0.1%-0.5% 之间，减少被攻击的利润空间。</p>
+                    <div class="tip">推荐: 0.3% 滑点</div>
+                </div>
+                <div class="protection-card">
+                    <div class="protection-icon">🔒</div>
+                    <h3>使用私有交易</h3>
+                    <p>通过 Flashbots Protect、MEV Blocker 等服务提交私有交易。</p>
+                    <div class="tip">推荐: Flashbots Protect</div>
+                </div>
+                <div class="protection-card">
+                    <div class="protection-icon">📊</div>
+                    <h3>分批交易</h3>
+                    <p>将大额交易拆分成多笔小额交易，降低单笔交易的攻击价值。</p>
+                    <div class="tip">建议: 单笔 < 池子 1%</div>
+                </div>
+                <div class="protection-card">
+                    <div class="protection-icon">⏰</div>
+                    <h3>限价订单</h3>
+                    <p>使用支持限价订单的 DEX 聚合器，如 1inch Fusion、CoW Swap。</p>
+                    <div class="tip">推荐: CoW Swap</div>
+                </div>
+            </div>
+
+            <div class="tools-section">
+                <h3>防护工具推荐</h3>
+                <div class="tools-grid">
+                    <a href="#" class="tool-link">
+                        <span class="tool-name">Flashbots Protect</span>
+                        <span class="tool-desc">免费私有交易 RPC</span>
+                    </a>
+                    <a href="#" class="tool-link">
+                        <span class="tool-name">MEV Blocker</span>
+                        <span class="tool-desc">多构建者竞价保护</span>
+                    </a>
+                    <a href="#" class="tool-link">
+                        <span class="tool-name">CoW Swap</span>
+                        <span class="tool-desc">批量拍卖 DEX</span>
+                    </a>
+                    <a href="#" class="tool-link">
+                        <span class="tool-name">1inch Fusion</span>
+                        <span class="tool-desc">无 Gas 限价订单</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>本演示仅用于教育目的，帮助用户理解和防范三明治攻击</p>
+        <p>© 2024 三明治攻击演示 | 安全交易，从了解风险开始</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
