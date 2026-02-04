@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initChart();
     // 初始化滚动动画
     initScrollAnimations();
+    // 初始化防护策略
+    initDefenseSection();
 });
 
 // 导航功能
@@ -381,3 +383,194 @@ function initScrollAnimations() {
 window.addEventListener('resize', function() {
     initChart();
 });
+
+// ==================== 防护策略交互功能 ====================
+
+function initDefenseSection() {
+    // 初始化防护标签页
+    initDefenseTabs();
+    // 初始化滑点计算器
+    initSlippageCalculator();
+    // 初始化复制按钮
+    initCopyButtons();
+    // 初始化分批计算器
+    initBatchCalculator();
+    // 初始化安全检查清单
+    initChecklist();
+}
+
+// 防护标签页
+function initDefenseTabs() {
+    const tabBtns = document.querySelectorAll('.defense-tab-btn');
+    const tabContents = document.querySelectorAll('.defense-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-defense');
+
+            // 移除所有活动状态
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            // 添加活动状态
+            this.classList.add('active');
+            document.getElementById(tabId + '-defense').classList.add('active');
+        });
+    });
+}
+
+// 滑点风险计算器
+function initSlippageCalculator() {
+    const amountInput = document.getElementById('calcAmount');
+    const slippageInput = document.getElementById('calcSlippage');
+    const slippageValue = document.getElementById('calcSlippageValue');
+
+    if (!amountInput || !slippageInput) return;
+
+    function updateCalculation() {
+        const amount = parseFloat(amountInput.value) || 0;
+        const slippage = parseFloat(slippageInput.value) || 0;
+
+        // 更新滑点显示
+        slippageValue.textContent = slippage + '%';
+
+        // 计算最大潜在损失
+        const maxLoss = amount * (slippage / 100);
+        document.getElementById('maxLoss').textContent = '$' + maxLoss.toFixed(2);
+
+        // 攻击者利润空间（约为损失的70%，扣除Gas等成本）
+        const attackerSpace = maxLoss * 0.7;
+        document.getElementById('attackerSpace').textContent = '$' + attackerSpace.toFixed(2);
+
+        // 风险等级
+        const riskLevel = document.getElementById('riskLevel');
+        if (slippage <= 0.5) {
+            riskLevel.textContent = '低风险';
+            riskLevel.style.color = '#10b981';
+        } else if (slippage <= 1.5) {
+            riskLevel.textContent = '中等风险';
+            riskLevel.style.color = '#f59e0b';
+        } else {
+            riskLevel.textContent = '高风险';
+            riskLevel.style.color = '#ef4444';
+        }
+    }
+
+    amountInput.addEventListener('input', updateCalculation);
+    slippageInput.addEventListener('input', updateCalculation);
+
+    // 初始计算
+    updateCalculation();
+}
+
+// 复制按钮功能
+function initCopyButtons() {
+    const copyBtns = document.querySelectorAll('.copy-btn');
+
+    copyBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const textToCopy = this.getAttribute('data-copy');
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = this.textContent;
+                this.textContent = '已复制!';
+                this.style.background = '#10b981';
+
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        });
+    });
+}
+
+// 分批计算器
+function initBatchCalculator() {
+    const calcBtn = document.getElementById('calcBatch');
+    if (!calcBtn) return;
+
+    calcBtn.addEventListener('click', function() {
+        const totalAmount = parseFloat(document.getElementById('batchTotal').value) || 0;
+        const liquidity = parseFloat(document.getElementById('batchLiquidity').value) || 1;
+
+        // 建议单笔金额为池子流动性的0.5%-1%
+        const recommendedBatchSize = liquidity * 0.0075; // 取中间值0.75%
+        const batchCount = Math.ceil(totalAmount / recommendedBatchSize);
+        const actualBatchSize = totalAmount / batchCount;
+
+        // 计算价格影响（简化公式）
+        const singlePriceImpact = (actualBatchSize / liquidity) * 100;
+
+        // 更新显示
+        document.getElementById('batchCount').textContent = batchCount + ' 笔';
+        document.getElementById('batchSize').textContent = actualBatchSize.toFixed(2) + ' ETH';
+        document.getElementById('priceImpact').textContent = singlePriceImpact.toFixed(2) + '%';
+
+        // 生成可视化条形图
+        const barsContainer = document.getElementById('batchBars');
+        barsContainer.innerHTML = '';
+
+        for (let i = 0; i < Math.min(batchCount, 10); i++) {
+            const bar = document.createElement('div');
+            bar.className = 'batch-bar';
+            bar.style.height = '60px';
+            bar.textContent = (i + 1);
+            barsContainer.appendChild(bar);
+
+            // 动画效果
+            setTimeout(() => {
+                bar.style.height = '60px';
+            }, i * 100);
+        }
+
+        if (batchCount > 10) {
+            const more = document.createElement('div');
+            more.className = 'batch-bar';
+            more.style.background = 'var(--muted)';
+            more.style.height = '60px';
+            more.textContent = '...';
+            barsContainer.appendChild(more);
+        }
+    });
+}
+
+// 安全检查清单
+function initChecklist() {
+    const checkboxes = document.querySelectorAll('.checklist-item input');
+    const scoreDisplay = document.getElementById('safetyScore');
+    const scoreFill = document.getElementById('scoreFill');
+
+    if (!checkboxes.length || !scoreDisplay) return;
+
+    function updateScore() {
+        let checked = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) checked++;
+        });
+
+        scoreDisplay.textContent = checked;
+
+        // 更新进度条
+        const percentage = (checked / checkboxes.length) * 100;
+        scoreFill.style.width = percentage + '%';
+
+        // 根据分数改变颜色
+        if (checked <= 2) {
+            scoreFill.style.background = '#ef4444';
+        } else if (checked <= 4) {
+            scoreFill.style.background = '#f59e0b';
+        } else {
+            scoreFill.style.background = '#10b981';
+        }
+    }
+
+    checkboxes.forEach(cb => {
+        cb.addEventListener('change', updateScore);
+    });
+
+    // 初始化分数
+    updateScore();
+}

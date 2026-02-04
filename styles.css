@@ -1026,3 +1026,972 @@ body {
 .executing {
     animation: pulse 1s infinite;
 }
+
+/* ==================== 防护策略详解样式 ==================== */
+
+/* 防护概览 */
+.defense-overview {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+}
+
+.defense-intro {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.defense-intro p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.defense-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.defense-stat {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--darker);
+    border-radius: 12px;
+    min-width: 200px;
+}
+
+.defense-stat .stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--secondary);
+}
+
+.defense-stat .stat-text {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/* 防护标签页 */
+.defense-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.defense-tab-btn {
+    background: var(--surface);
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: var(--light);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.defense-tab-btn:hover {
+    background: var(--surface-light);
+}
+
+.defense-tab-btn.active {
+    background: var(--primary);
+}
+
+/* 防护内容 */
+.defense-content {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.defense-content.active {
+    display: block;
+}
+
+.defense-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+}
+
+.defense-info h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.defense-info > p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.defense-principle {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary);
+}
+
+.defense-principle h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.defense-tips {
+    margin-top: 1.5rem;
+}
+
+.defense-tips h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+.defense-tips ul {
+    list-style: none;
+    padding: 0;
+}
+
+.defense-tips li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.defense-tips li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--secondary);
+}
+
+/* 滑点指南 */
+.slippage-guide {
+    margin-top: 1.5rem;
+}
+
+.slippage-guide h4 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.slippage-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.slippage-level {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--darker);
+}
+
+.slippage-level.safe {
+    border-left: 4px solid var(--secondary);
+}
+
+.slippage-level.moderate {
+    border-left: 4px solid var(--warning);
+}
+
+.slippage-level.risky {
+    border-left: 4px solid var(--danger);
+}
+
+.level-value {
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.level-label {
+    color: var(--muted);
+    min-width: 80px;
+}
+
+.level-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* 滑点计算器 */
+.slippage-calculator {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.slippage-calculator h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.calc-input {
+    margin-bottom: 1.5rem;
+}
+
+.calc-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+}
+
+.calc-input input[type="number"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--surface-light);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--light);
+    font-size: 1rem;
+}
+
+.calc-input input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--surface-light);
+    appearance: none;
+    cursor: pointer;
+}
+
+.calc-input input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+}
+
+.calc-input span {
+    display: block;
+    text-align: right;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--surface-light);
+}
+
+.calc-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.calc-result .label {
+    color: var(--muted);
+}
+
+.calc-result .value {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.calc-result .value.negative {
+    color: var(--danger);
+}
+
+.calc-result .value.warning {
+    color: var(--warning);
+}
+
+/* 私有交易对比 */
+.private-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.comparison-item {
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--darker);
+}
+
+.comparison-item h5 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.flow-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.flow-mini .danger {
+    color: var(--danger);
+}
+
+.flow-mini .safe {
+    color: var(--secondary);
+}
+
+.comparison-item .status {
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.comparison-item .status.danger {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+.comparison-item .status.safe {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--secondary);
+}
+
+/* RPC 设置步骤 */
+.rpc-setup {
+    margin-top: 1.5rem;
+}
+
+.rpc-setup h4 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.setup-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.setup-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--darker);
+    border-radius: 8px;
+}
+
+.step-num {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* RPC 列表 */
+.rpc-list {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.rpc-list h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.rpc-item {
+    padding: 1.25rem;
+    background: var(--surface);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.rpc-item:last-child {
+    margin-bottom: 0;
+}
+
+.rpc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.rpc-name {
+    font-weight: bold;
+    color: var(--light);
+}
+
+.rpc-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.rpc-badge.free {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--secondary);
+}
+
+.rpc-url {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.rpc-url code {
+    flex: 1;
+    padding: 0.5rem;
+    background: var(--darker);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--primary);
+    overflow-x: auto;
+}
+
+.copy-btn {
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+}
+
+.copy-btn:hover {
+    background: var(--primary-dark);
+}
+
+.rpc-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* 分批交易 */
+.batch-formula {
+    margin: 1.5rem 0;
+}
+
+.batch-formula h4 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.formula-box {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-family: monospace;
+}
+
+.formula-box p {
+    margin-bottom: 0.5rem;
+}
+
+.batch-example {
+    margin: 1.5rem 0;
+}
+
+.batch-example h4 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.example-scenario {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.example-scenario p {
+    margin-bottom: 0.5rem;
+}
+
+/* 分批模拟器 */
+.batch-simulator {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.batch-simulator h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.batch-input {
+    margin-bottom: 1rem;
+}
+
+.batch-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+}
+
+.batch-input input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--surface-light);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--light);
+    font-size: 1rem;
+}
+
+.calc-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 1.5rem;
+}
+
+.calc-btn:hover {
+    background: var(--primary-dark);
+}
+
+.batch-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--surface-light);
+    margin-bottom: 1.5rem;
+}
+
+.batch-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.batch-result .label {
+    color: var(--muted);
+}
+
+.batch-result .value {
+    font-weight: bold;
+    color: var(--secondary);
+}
+
+.batch-visual-bars {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.batch-bar {
+    width: 40px;
+    background: var(--primary);
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+    font-size: 0.8rem;
+    transition: height 0.3s;
+}
+
+/* DEX 类型 */
+.dex-types {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.dex-type {
+    padding: 1.5rem;
+    background: var(--darker);
+    border-radius: 12px;
+}
+
+.dex-type h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.dex-type p {
+    margin-bottom: 0.75rem;
+    color: var(--muted);
+}
+
+.dex-example {
+    font-size: 0.9rem;
+    color: var(--light);
+}
+
+/* DEX 对比表格 */
+.dex-comparison-table {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.dex-comparison-table h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--surface-light);
+}
+
+.comparison-table th {
+    color: var(--muted);
+    font-weight: normal;
+}
+
+.comparison-table td:first-child {
+    text-align: left;
+    font-weight: bold;
+}
+
+.rating {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+.rating.high {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--secondary);
+}
+
+.rating.medium {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning);
+}
+
+.rating.low {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* 时机选择 */
+.timing-factors {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.timing-factor {
+    padding: 1.25rem;
+    background: var(--darker);
+    border-radius: 8px;
+}
+
+.timing-factor h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.timing-factor p {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.timing-recommendations {
+    margin-top: 1.5rem;
+}
+
+.timing-recommendations h4 {
+    margin-bottom: 1rem;
+    color: var(--light);
+}
+
+.time-slots {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.time-slot {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--darker);
+}
+
+.time-slot.good {
+    border-left: 4px solid var(--secondary);
+}
+
+.time-slot.moderate {
+    border-left: 4px solid var(--warning);
+}
+
+.time-slot.avoid {
+    border-left: 4px solid var(--danger);
+}
+
+.time-slot .time {
+    font-weight: bold;
+    min-width: 120px;
+}
+
+.time-slot .desc {
+    color: var(--muted);
+}
+
+/* Gas 追踪器 */
+.gas-tracker {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.gas-tracker h4 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.gas-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.gas-level {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 8px;
+}
+
+.gas-icon {
+    font-size: 1.5rem;
+}
+
+.gas-range {
+    font-weight: bold;
+    min-width: 100px;
+}
+
+.gas-label {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.timing-tips-box {
+    background: var(--darker);
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.timing-tips-box h4 {
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+.timing-tips-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.timing-tips-box li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--muted);
+}
+
+.timing-tips-box li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}
+
+/* 安全检查清单 */
+.defense-checklist {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.defense-checklist h3 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--darker);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.checklist-item:hover {
+    background: var(--surface-light);
+}
+
+.checklist-item input {
+    display: none;
+}
+
+.checkmark {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--muted);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.checklist-item input:checked + .checkmark {
+    background: var(--secondary);
+    border-color: var(--secondary);
+}
+
+.checklist-item input:checked + .checkmark::after {
+    content: '✓';
+    color: white;
+    font-weight: bold;
+}
+
+.check-text {
+    color: var(--light);
+}
+
+.checklist-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+}
+
+#safetyScore {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 1.5rem;
+}
+
+.score-bar {
+    width: 200px;
+    height: 8px;
+    background: var(--darker);
+    border-radius: 4px;
+    margin-left: 1rem;
+    overflow: hidden;
+}
+
+.score-fill {
+    height: 100%;
+    background: var(--secondary);
+    border-radius: 4px;
+    transition: width 0.3s;
+    width: 0%;
+}
+
+/* 工具标签 */
+.tool-tag {
+    margin-top: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--primary);
+    display: inline-block;
+}
+
+/* 响应式调整 */
+@media (max-width: 900px) {
+    .defense-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .private-comparison {
+        grid-template-columns: 1fr;
+    }
+
+    .checklist-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .defense-tabs {
+        flex-direction: column;
+    }
+
+    .defense-tab-btn {
+        width: 100%;
+    }
+
+    .slippage-level {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .time-slot {
+        flex-direction: column;
+        text-align: center;
+    }
+}

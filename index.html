@@ -403,51 +403,492 @@
         <!-- 防护措施 -->
         <section id="protection" class="section dark">
             <h2>如何防护三明治攻击</h2>
-            <div class="protection-grid">
-                <div class="protection-card">
-                    <div class="protection-icon">🛡️</div>
-                    <h3>设置合理滑点</h3>
-                    <p>将滑点容忍度设置在 0.1%-0.5% 之间，减少被攻击的利润空间。</p>
-                    <div class="tip">推荐: 0.3% 滑点</div>
+
+            <!-- 防护策略概览 -->
+            <div class="defense-overview">
+                <div class="defense-intro">
+                    <p>三明治攻击虽然难以完全避免，但通过合理的策略可以大幅降低被攻击的风险和损失。以下是经过验证的有效防护方法。</p>
                 </div>
-                <div class="protection-card">
-                    <div class="protection-icon">🔒</div>
-                    <h3>使用私有交易</h3>
-                    <p>通过 Flashbots Protect、MEV Blocker 等服务提交私有交易。</p>
-                    <div class="tip">推荐: Flashbots Protect</div>
-                </div>
-                <div class="protection-card">
-                    <div class="protection-icon">📊</div>
-                    <h3>分批交易</h3>
-                    <p>将大额交易拆分成多笔小额交易，降低单笔交易的攻击价值。</p>
-                    <div class="tip">建议: 单笔 < 池子 1%</div>
-                </div>
-                <div class="protection-card">
-                    <div class="protection-icon">⏰</div>
-                    <h3>限价订单</h3>
-                    <p>使用支持限价订单的 DEX 聚合器，如 1inch Fusion、CoW Swap。</p>
-                    <div class="tip">推荐: CoW Swap</div>
+                <div class="defense-stats">
+                    <div class="defense-stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-text">使用私有交易可避免的攻击</span>
+                    </div>
+                    <div class="defense-stat">
+                        <span class="stat-number">80%</span>
+                        <span class="stat-text">低滑点设置减少的损失</span>
+                    </div>
+                    <div class="defense-stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-text">批量拍卖DEX的保护率</span>
+                    </div>
                 </div>
             </div>
 
+            <!-- 策略详解标签页 -->
+            <div class="defense-tabs">
+                <button class="defense-tab-btn active" data-defense="slippage">滑点控制</button>
+                <button class="defense-tab-btn" data-defense="private">私有交易</button>
+                <button class="defense-tab-btn" data-defense="batch">分批交易</button>
+                <button class="defense-tab-btn" data-defense="dex">安全DEX</button>
+                <button class="defense-tab-btn" data-defense="timing">时机选择</button>
+            </div>
+
+            <!-- 滑点控制详解 -->
+            <div class="defense-content active" id="slippage-defense">
+                <div class="defense-detail">
+                    <div class="defense-info">
+                        <h3>🛡️ 滑点控制策略</h3>
+                        <p>滑点容忍度是三明治攻击的关键突破口。攻击者会根据你设置的滑点来计算最大可提取利润。</p>
+
+                        <div class="defense-principle">
+                            <h4>原理解析</h4>
+                            <p>当你设置 5% 滑点时，意味着你愿意接受最多 5% 的价格偏差。攻击者可以在这个范围内操纵价格获利。</p>
+                        </div>
+
+                        <div class="slippage-guide">
+                            <h4>滑点设置指南</h4>
+                            <div class="slippage-levels">
+                                <div class="slippage-level safe">
+                                    <span class="level-value">0.1% - 0.3%</span>
+                                    <span class="level-label">安全区间</span>
+                                    <span class="level-desc">适合稳定币对和高流动性交易对</span>
+                                </div>
+                                <div class="slippage-level moderate">
+                                    <span class="level-value">0.5% - 1%</span>
+                                    <span class="level-label">适中区间</span>
+                                    <span class="level-desc">适合主流代币交易</span>
+                                </div>
+                                <div class="slippage-level risky">
+                                    <span class="level-value">2% - 5%</span>
+                                    <span class="level-label">高风险区间</span>
+                                    <span class="level-desc">仅用于低流动性代币，极易被攻击</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="defense-tips">
+                            <h4>实用技巧</h4>
+                            <ul>
+                                <li>先用小额测试实际滑点，再设置合理容忍度</li>
+                                <li>避免使用"自动"滑点设置</li>
+                                <li>交易失败时，小幅增加滑点而非大幅调整</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="defense-visual">
+                        <div class="slippage-calculator">
+                            <h4>滑点风险计算器</h4>
+                            <div class="calc-input">
+                                <label>交易金额 (USD)</label>
+                                <input type="number" id="calcAmount" value="10000" min="100">
+                            </div>
+                            <div class="calc-input">
+                                <label>滑点设置 (%)</label>
+                                <input type="range" id="calcSlippage" min="0.1" max="5" step="0.1" value="1">
+                                <span id="calcSlippageValue">1%</span>
+                            </div>
+                            <div class="calc-results">
+                                <div class="calc-result">
+                                    <span class="label">最大潜在损失</span>
+                                    <span class="value negative" id="maxLoss">$100</span>
+                                </div>
+                                <div class="calc-result">
+                                    <span class="label">攻击者利润空间</span>
+                                    <span class="value warning" id="attackerSpace">$70</span>
+                                </div>
+                                <div class="calc-result">
+                                    <span class="label">风险等级</span>
+                                    <span class="value" id="riskLevel">中等</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 私有交易详解 -->
+            <div class="defense-content" id="private-defense">
+                <div class="defense-detail">
+                    <div class="defense-info">
+                        <h3>🔒 私有交易通道</h3>
+                        <p>私有交易是最有效的防护手段，通过绕过公共 Mempool 直接将交易提交给区块构建者。</p>
+
+                        <div class="defense-principle">
+                            <h4>工作原理</h4>
+                            <p>普通交易会广播到公共 Mempool，任何人都可以看到。私有交易则通过加密通道直接发送给可信的区块构建者，攻击者无法提前获知交易内容。</p>
+                        </div>
+
+                        <div class="private-comparison">
+                            <div class="comparison-item public">
+                                <h5>公共交易流程</h5>
+                                <div class="flow-mini">
+                                    <span>用户</span> → <span class="danger">公共Mempool</span> → <span class="danger">被监控</span> → <span>区块</span>
+                                </div>
+                                <p class="status danger">易被攻击</p>
+                            </div>
+                            <div class="comparison-item private">
+                                <h5>私有交易流程</h5>
+                                <div class="flow-mini">
+                                    <span>用户</span> → <span class="safe">加密通道</span> → <span class="safe">构建者</span> → <span>区块</span>
+                                </div>
+                                <p class="status safe">安全保护</p>
+                            </div>
+                        </div>
+
+                        <div class="rpc-setup">
+                            <h4>如何配置私有 RPC</h4>
+                            <div class="setup-steps">
+                                <div class="setup-step">
+                                    <span class="step-num">1</span>
+                                    <span class="step-text">打开钱包设置 → 网络</span>
+                                </div>
+                                <div class="setup-step">
+                                    <span class="step-num">2</span>
+                                    <span class="step-text">添加新网络或修改现有 RPC</span>
+                                </div>
+                                <div class="setup-step">
+                                    <span class="step-num">3</span>
+                                    <span class="step-text">输入私有 RPC 地址</span>
+                                </div>
+                                <div class="setup-step">
+                                    <span class="step-num">4</span>
+                                    <span class="step-text">保存并切换到新网络</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="defense-visual">
+                        <div class="rpc-list">
+                            <h4>推荐私有 RPC 服务</h4>
+                            <div class="rpc-item">
+                                <div class="rpc-header">
+                                    <span class="rpc-name">Flashbots Protect</span>
+                                    <span class="rpc-badge free">免费</span>
+                                </div>
+                                <div class="rpc-url">
+                                    <code>https://rpc.flashbots.net</code>
+                                    <button class="copy-btn" data-copy="https://rpc.flashbots.net">复制</button>
+                                </div>
+                                <p class="rpc-desc">最流行的免费私有交易服务，支持以太坊主网</p>
+                            </div>
+                            <div class="rpc-item">
+                                <div class="rpc-header">
+                                    <span class="rpc-name">MEV Blocker</span>
+                                    <span class="rpc-badge free">免费</span>
+                                </div>
+                                <div class="rpc-url">
+                                    <code>https://rpc.mevblocker.io</code>
+                                    <button class="copy-btn" data-copy="https://rpc.mevblocker.io">复制</button>
+                                </div>
+                                <p class="rpc-desc">多构建者竞价，可能获得 MEV 返还</p>
+                            </div>
+                            <div class="rpc-item">
+                                <div class="rpc-header">
+                                    <span class="rpc-name">Securerpc</span>
+                                    <span class="rpc-badge free">免费</span>
+                                </div>
+                                <div class="rpc-url">
+                                    <code>https://api.securerpc.com/v1</code>
+                                    <button class="copy-btn" data-copy="https://api.securerpc.com/v1">复制</button>
+                                </div>
+                                <p class="rpc-desc">Manifold Finance 提供的安全 RPC</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分批交易详解 -->
+            <div class="defense-content" id="batch-defense">
+                <div class="defense-detail">
+                    <div class="defense-info">
+                        <h3>📊 分批交易策略</h3>
+                        <p>将大额交易拆分成多笔小额交易，可以显著降低每笔交易的攻击价值，使攻击变得无利可图。</p>
+
+                        <div class="defense-principle">
+                            <h4>为什么有效</h4>
+                            <p>三明治攻击需要支付 Gas 费用。当单笔交易金额较小时，攻击者的潜在利润可能无法覆盖 Gas 成本，从而放弃攻击。</p>
+                        </div>
+
+                        <div class="batch-formula">
+                            <h4>分批计算公式</h4>
+                            <div class="formula-box">
+                                <p><strong>建议单笔金额</strong> = 池子流动性 × 0.5% ~ 1%</p>
+                                <p><strong>分批数量</strong> = 总金额 ÷ 单笔金额</p>
+                            </div>
+                        </div>
+
+                        <div class="batch-example">
+                            <h4>实例演示</h4>
+                            <div class="example-scenario">
+                                <p><strong>场景：</strong>想用 100 ETH 购买某代币</p>
+                                <p><strong>池子流动性：</strong>5,000 ETH</p>
+                                <p><strong>建议单笔：</strong>25-50 ETH</p>
+                                <p><strong>分批数量：</strong>2-4 笔</p>
+                            </div>
+                        </div>
+
+                        <div class="defense-tips">
+                            <h4>注意事项</h4>
+                            <ul>
+                                <li>分批会增加总 Gas 费用</li>
+                                <li>在不同区块执行可能面临价格波动</li>
+                                <li>可结合私有交易使用效果更佳</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="defense-visual">
+                        <div class="batch-simulator">
+                            <h4>分批策略模拟器</h4>
+                            <div class="batch-input">
+                                <label>总交易金额 (ETH)</label>
+                                <input type="number" id="batchTotal" value="100" min="1">
+                            </div>
+                            <div class="batch-input">
+                                <label>池子流动性 (ETH)</label>
+                                <input type="number" id="batchLiquidity" value="5000" min="100">
+                            </div>
+                            <button id="calcBatch" class="calc-btn">计算最优分批</button>
+                            <div class="batch-results">
+                                <div class="batch-result">
+                                    <span class="label">建议分批数</span>
+                                    <span class="value" id="batchCount">-</span>
+                                </div>
+                                <div class="batch-result">
+                                    <span class="label">每批金额</span>
+                                    <span class="value" id="batchSize">-</span>
+                                </div>
+                                <div class="batch-result">
+                                    <span class="label">价格影响</span>
+                                    <span class="value" id="priceImpact">-</span>
+                                </div>
+                            </div>
+                            <div class="batch-visual-bars" id="batchBars">
+                                <!-- 动态生成分批可视化 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 安全DEX详解 -->
+            <div class="defense-content" id="dex-defense">
+                <div class="defense-detail">
+                    <div class="defense-info">
+                        <h3>🔄 抗MEV去中心化交易所</h3>
+                        <p>一些新型 DEX 从协议层面设计了抗 MEV 机制，从根本上消除三明治攻击的可能性。</p>
+
+                        <div class="dex-types">
+                            <div class="dex-type">
+                                <h4>批量拍卖 DEX</h4>
+                                <p>将一段时间内的所有订单收集起来，统一以相同价格执行，消除交易排序优势。</p>
+                                <div class="dex-example">
+                                    <strong>代表：</strong>CoW Swap, CrocSwap
+                                </div>
+                            </div>
+                            <div class="dex-type">
+                                <h4>意图交易 DEX</h4>
+                                <p>用户只表达交易意图，由求解者竞争提供最优执行路径。</p>
+                                <div class="dex-example">
+                                    <strong>代表：</strong>1inch Fusion, UniswapX
+                                </div>
+                            </div>
+                            <div class="dex-type">
+                                <h4>时间加权 DEX</h4>
+                                <p>使用时间加权平均价格（TWAP）执行大额订单。</p>
+                                <div class="dex-example">
+                                    <strong>代表：</strong>TWAP 订单功能
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="defense-visual">
+                        <div class="dex-comparison-table">
+                            <h4>DEX 安全性对比</h4>
+                            <table class="comparison-table">
+                                <thead>
+                                    <tr>
+                                        <th>DEX</th>
+                                        <th>MEV保护</th>
+                                        <th>Gas费用</th>
+                                        <th>执行速度</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Uniswap</td>
+                                        <td class="rating low">无</td>
+                                        <td class="rating medium">中等</td>
+                                        <td class="rating high">即时</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CoW Swap</td>
+                                        <td class="rating high">完全</td>
+                                        <td class="rating high">低/无</td>
+                                        <td class="rating low">批次</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1inch Fusion</td>
+                                        <td class="rating high">高</td>
+                                        <td class="rating high">无</td>
+                                        <td class="rating medium">中等</td>
+                                    </tr>
+                                    <tr>
+                                        <td>UniswapX</td>
+                                        <td class="rating medium">中等</td>
+                                        <td class="rating high">低</td>
+                                        <td class="rating medium">中等</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时机选择详解 -->
+            <div class="defense-content" id="timing-defense">
+                <div class="defense-detail">
+                    <div class="defense-info">
+                        <h3>⏰ 交易时机选择</h3>
+                        <p>选择合适的交易时机可以降低被攻击的概率和成本。</p>
+
+                        <div class="timing-factors">
+                            <div class="timing-factor">
+                                <h4>Gas 价格</h4>
+                                <p>低 Gas 时期攻击成本更低，但你的交易成本也更低。高 Gas 时期攻击者需要更高利润才会行动。</p>
+                            </div>
+                            <div class="timing-factor">
+                                <h4>网络拥堵</h4>
+                                <p>网络拥堵时，交易排序竞争激烈，攻击成功率可能降低。</p>
+                            </div>
+                            <div class="timing-factor">
+                                <h4>市场波动</h4>
+                                <p>高波动期间价格变化快，攻击者风险增加，但你也面临更大滑点。</p>
+                            </div>
+                        </div>
+
+                        <div class="timing-recommendations">
+                            <h4>最佳交易时段</h4>
+                            <div class="time-slots">
+                                <div class="time-slot good">
+                                    <span class="time">UTC 4:00-8:00</span>
+                                    <span class="desc">亚洲早盘，Gas 较低</span>
+                                </div>
+                                <div class="time-slot moderate">
+                                    <span class="time">UTC 12:00-14:00</span>
+                                    <span class="desc">欧美交接，活动适中</span>
+                                </div>
+                                <div class="time-slot avoid">
+                                    <span class="time">UTC 14:00-20:00</span>
+                                    <span class="desc">美国活跃时段，竞争激烈</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="defense-visual">
+                        <div class="gas-tracker">
+                            <h4>Gas 价格参考</h4>
+                            <div class="gas-levels">
+                                <div class="gas-level">
+                                    <span class="gas-icon low">🟢</span>
+                                    <span class="gas-range">&lt; 20 Gwei</span>
+                                    <span class="gas-label">低 - 适合大额交易</span>
+                                </div>
+                                <div class="gas-level">
+                                    <span class="gas-icon medium">🟡</span>
+                                    <span class="gas-range">20-50 Gwei</span>
+                                    <span class="gas-label">中等 - 正常交易</span>
+                                </div>
+                                <div class="gas-level">
+                                    <span class="gas-icon high">🔴</span>
+                                    <span class="gas-range">&gt; 50 Gwei</span>
+                                    <span class="gas-label">高 - 考虑延迟交易</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timing-tips-box">
+                            <h4>额外建议</h4>
+                            <ul>
+                                <li>使用 Gas 追踪工具监控最佳时机</li>
+                                <li>设置 Gas 价格上限避免意外高费用</li>
+                                <li>非紧急交易可等待低 Gas 时段</li>
+                                <li>周末通常 Gas 较低</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 综合防护检查清单 -->
+            <div class="defense-checklist">
+                <h3>🔍 交易前安全检查清单</h3>
+                <div class="checklist-grid">
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check1">
+                        <span class="checkmark"></span>
+                        <span class="check-text">已配置私有 RPC（Flashbots/MEV Blocker）</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check2">
+                        <span class="checkmark"></span>
+                        <span class="check-text">滑点设置在 1% 以下</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check3">
+                        <span class="checkmark"></span>
+                        <span class="check-text">交易金额小于池子流动性的 1%</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check4">
+                        <span class="checkmark"></span>
+                        <span class="check-text">已检查当前 Gas 价格</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check5">
+                        <span class="checkmark"></span>
+                        <span class="check-text">考虑使用 CoW Swap 等抗MEV DEX</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" id="check6">
+                        <span class="checkmark"></span>
+                        <span class="check-text">大额交易已规划分批策略</span>
+                    </label>
+                </div>
+                <div class="checklist-score">
+                    <span>安全评分: </span>
+                    <span id="safetyScore">0</span>
+                    <span>/6</span>
+                    <div class="score-bar">
+                        <div class="score-fill" id="scoreFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工具推荐 -->
             <div class="tools-section">
                 <h3>防护工具推荐</h3>
                 <div class="tools-grid">
-                    <a href="#" class="tool-link">
+                    <a href="https://protect.flashbots.net" target="_blank" class="tool-link">
                         <span class="tool-name">Flashbots Protect</span>
-                        <span class="tool-desc">免费私有交易 RPC</span>
+                        <span class="tool-desc">免费私有交易 RPC，最流行的 MEV 保护方案</span>
+                        <span class="tool-tag">必备</span>
                     </a>
-                    <a href="#" class="tool-link">
+                    <a href="https://mevblocker.io" target="_blank" class="tool-link">
                         <span class="tool-name">MEV Blocker</span>
-                        <span class="tool-desc">多构建者竞价保护</span>
+                        <span class="tool-desc">多构建者竞价保护，可能获得 MEV 返还</span>
+                        <span class="tool-tag">推荐</span>
                     </a>
-                    <a href="#" class="tool-link">
+                    <a href="https://swap.cow.fi" target="_blank" class="tool-link">
                         <span class="tool-name">CoW Swap</span>
-                        <span class="tool-desc">批量拍卖 DEX</span>
+                        <span class="tool-desc">批量拍卖 DEX，从协议层面杜绝 MEV</span>
+                        <span class="tool-tag">最安全</span>
                     </a>
-                    <a href="#" class="tool-link">
+                    <a href="https://app.1inch.io" target="_blank" class="tool-link">
                         <span class="tool-name">1inch Fusion</span>
-                        <span class="tool-desc">无 Gas 限价订单</span>
+                        <span class="tool-desc">无 Gas 限价订单，求解者竞争最优价格</span>
+                        <span class="tool-tag">省Gas</span>
                     </a>
                 </div>
             </div>
